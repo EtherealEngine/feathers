@@ -4,7 +4,6 @@
 import http from 'http'
 import _url from 'url'
 import qs from 'qs'
-import { userInfo } from 'os'
 
 const buffer = (req: http.IncomingMessage, done: any) => {
   let data = ''
@@ -158,14 +157,11 @@ const oauth2 = (port: number) =>
         if (query.response_mode === 'form_post') {
           provider === 'apple'
             ? res.end(
-              JSON.stringify({
-                body: {
-                  access_token: 'token',
-                  refresh_token: 'refresh',
-                  expires_in: 3600
-                }
-              })
-            )
+                qs.stringify({
+                  code: 'code',
+                  user: { name: { firstName: 'jon', lastName: 'doe' }, email: 'jon@doe.com' }
+                })
+              )
             : res.end('code')
           return
         }
